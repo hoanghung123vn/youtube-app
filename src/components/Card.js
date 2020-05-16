@@ -16,6 +16,7 @@ const Card = (props) => {
   const textcolor = colors.iconColor;
   return (
     <TouchableOpacity
+      activeOpacity={0.6}
       onPress={() =>
         navigation.navigate("videoplayer", {
           videoId: props.videoId,

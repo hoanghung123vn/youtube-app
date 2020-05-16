@@ -1,9 +1,8 @@
-const initialState = []
+const initialState = [];
 
-export const reducer =(state=initialState,action)=>{
-    if(action.type=='add'){
-        return action.payload
-    }
-   return state
-}
-
+export const reducer = (state = initialState, action) => {
+  if (action.type == "add") {
+    return action.payload;
+  }
+  return state;
+};

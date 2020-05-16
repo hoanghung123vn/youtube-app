@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import Header from "../components/Header";
 import Card from "../components/Card";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function HomeScreen({ navigation }) {
   const scrollY = new Animated.Value(0);
@@ -21,17 +21,26 @@ export default function HomeScreen({ navigation }) {
   const cardData = useSelector((state) => {
     return state.cardData;
   });
+  const dispatch = useDispatch();
+  useEffect(() => {
+    fetch(
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${`Việt Nam trending`}&type=video&key=AIzaSyDQi1QMfN7ysZq8YPxG8-h9gFNfRFVjsto`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: "add", payload: data.items });
+      });
+  }, []);
   return (
     <View style={{ flex: 1 }}>
+      <Header />
       <Animated.View
         style={{
           transform: [{ translateY: translateY }],
           elevation: 4,
           zIndex: 100,
         }}
-      >
-        <Header />
-      </Animated.View>
+      ></Animated.View>
 
       <FlatList
         data={cardData}
