@@ -61,8 +61,6 @@ const RootHome = () => {
             iconName = "home";
           } else if (route.name === "Explore") {
             iconName = "explore";
-          } else if (route.name === "Suscribe") {
-            iconName = "subscriptions";
           }
 
           // You can return any component that you like here!
@@ -76,7 +74,6 @@ const RootHome = () => {
     >
       <Tabs.Screen name="Home" component={Home} />
       <Tabs.Screen name="Explore" component={Explore} />
-      <Tabs.Screen name="Suscribe" component={Suscribe} />
     </Tabs.Navigator>
   );
 };

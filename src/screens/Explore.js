@@ -1,30 +1,57 @@
-import React from "react";
-import { StyleSheet, Text, View, FlatList, ScrollView } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import Header from "../components/Header";
 import Card from "../components/Card";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import VideoService from "../service/VideoService";
 
-const LittleCard = ({ name }) => {
+const LittleCard = ({ name, keyword }) => {
+  const dispatch = useDispatch();
+  const videoService = new VideoService();
+  const [loading, setLoading] = useState(false);
+  const fetchData = () => {
+    setLoading(true);
+    videoService.getVideoBykeyword(keyword, 25).then((data) => {
+      setLoading(false);
+      dispatch({ type: "add", payload: data.items });
+    });
+  };
   return (
-    <View
-      style={{
-        backgroundColor: "red",
-        height: 50,
-        width: 180,
-        borderRadius: 4,
-        marginTop: 10,
-      }}
-    >
-      <Text
-        style={{
-          textAlign: "center",
-          color: "white",
-          fontSize: 22,
-          marginTop: 5,
-        }}
-      >
-        {name}
-      </Text>
+    <View>
+      <TouchableOpacity activeOpacity={0.3} onPress={() => fetchData()}>
+        <View
+          style={{
+            backgroundColor: "red",
+            height: 50,
+            width: 180,
+            borderRadius: 4,
+            marginTop: 10,
+            flexDirection: "row",
+            justifyContent: "space-around",
+          }}
+        >
+          <Text
+            style={{
+              textAlign: "center",
+              color: "white",
+              fontSize: 22,
+              marginTop: 5,
+            }}
+          >
+            {name}
+          </Text>
+          {loading && (
+            <ActivityIndicator style={{}} size="large" color="white" />
+          )}
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -43,12 +70,12 @@ const Explore = () => {
           justifyContent: "space-around",
         }}
       >
-        <LittleCard name="Gaming" />
-        <LittleCard name="Trending" />
-        <LittleCard name="Music" />
-        <LittleCard name="News" />
-        <LittleCard name="Movies" />
-        <LittleCard name="Fashion" />
+        <LittleCard name="Gaming" keyword="Việt Nam gaming" />
+        <LittleCard name="Trending" keyword="Việt Nam trending" />
+        <LittleCard name="Music" keyword="Việt Nam music" />
+        <LittleCard name="News" keyword="Việt Nam news" />
+        <LittleCard name="Movies" keyword="Việt Nam movies" />
+        <LittleCard name="Fashion" keyword="Việt Nam fashion" />
       </View>
       <Text
         style={{
@@ -59,6 +86,7 @@ const Explore = () => {
       >
         Trending Videos
       </Text>
+
       <FlatList
         data={cardData}
         renderItem={({ item }) => {

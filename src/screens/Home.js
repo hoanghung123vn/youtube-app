@@ -10,6 +10,7 @@ import {
 import Header from "../components/Header";
 import Card from "../components/Card";
 import { useSelector, useDispatch } from "react-redux";
+import VideoService from "../service/VideoService";
 
 export default function HomeScreen({ navigation }) {
   const scrollY = new Animated.Value(0);
@@ -22,14 +23,11 @@ export default function HomeScreen({ navigation }) {
     return state.cardData;
   });
   const dispatch = useDispatch();
+  const videoService = new VideoService();
   useEffect(() => {
-    fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${`Việt Nam trending`}&type=video&key=AIzaSyDQi1QMfN7ysZq8YPxG8-h9gFNfRFVjsto`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        dispatch({ type: "add", payload: data.items });
-      });
+    videoService
+      .getVideoBykeyword("Việt Nam trending", 25)
+      .then((data) => dispatch({ type: "add", payload: data.items }));
   }, []);
   return (
     <View style={{ flex: 1 }}>

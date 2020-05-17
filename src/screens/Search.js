@@ -14,6 +14,7 @@ import MiniCard from "../components/MiniCard";
 import Constant from "expo-constants";
 import { useTheme } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
+import VideoService from "../service/VideoService";
 
 const SearchScreen = ({ navigation }) => {
   const { colors } = useTheme();
@@ -26,18 +27,15 @@ const SearchScreen = ({ navigation }) => {
     return state.cardData;
   });
   const [loading, setLoading] = useState(false);
+  const videoService = new VideoService();
   const fetchData = () => {
     if (value.trim() === "") return;
     setLoading(true);
-    fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=${value}&type=video&key=AIzaSyDQi1QMfN7ysZq8YPxG8-h9gFNfRFVjsto`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setLoading(false);
-        dispatch({ type: "add", payload: data.items });
-        //setMiniCard(data.items)
-      });
+    videoService.getVideoBykeyword(value, 25).then((data) => {
+      setLoading(false);
+      dispatch({ type: "add", payload: data.items });
+      //setMiniCard(data.items)
+    });
   };
   return (
     <View

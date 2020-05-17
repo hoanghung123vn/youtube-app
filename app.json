@@ -6,11 +6,11 @@
     "sdkVersion": "36.0.0",
     "platforms": ["ios", "android", "web"],
     "android": {
-      "package": "com.cnq.ytclone",
+      "package": "com.hust.youtubeapp",
       "versionCode": 1
     },
     "ios": {
-      "bundleIdentifier": "com.cnq.ytclone",
+      "bundleIdentifier": "com.hust.youtubeapp",
       "buildNumber": "1.0.0"
     },
     "version": "1.0.0",
